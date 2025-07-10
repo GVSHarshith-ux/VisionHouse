@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD Application</title>
+</head>
+<body>
+  <form id="userform">
+    <input type="text" id="name" placeholder="Enter your Roll Number..." required><br>
+    <input type="email" id="email" placeholder="Enter your Email ID..." required><br>
+    <button type="submit">ADD</button><br>
+  </form>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Roll number</th>
+        <th>Email ID</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="userbody"></tbody>
+  </table>
+
+  <script>
+    const userform = document.getElementById('userform');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const userbody = document.getElementById('userbody');
+
+    let user = [];
+    let editIndex = null;
+
+    userform.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (editIndex === null) {
+        user.push({ name, email });
+      } else {
+        user[editIndex] = { name, email };
+        editIndex = null;
+      }
+
+      userform.reset();
+      renderTable();
+    });
+
+    function renderTable() {
+      userbody.innerHTML = '';
+      user.forEach((userData, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${userData.name}</td>
+          <td>${userData.email}</td>
+          <td><button onclick="editUser(${index})">Edit</button></td>
+          <td><button onclick="deleteUser(${index})">Delete</button></td>
+        `;
+        userbody.appendChild(row);
+      });
+    }
+
+    function editUser(index) {
+      const userData = user[index];
+      nameInput.value = userData.name;
+      emailInput.value = userData.email;
+      editIndex = index;
+    }
+
+    function deleteUser(index) {
+      user.splice(index, 1);
+      renderTable();
+    }
+  </script>
+</body>
+</html>
