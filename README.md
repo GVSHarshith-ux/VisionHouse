@@ -1,2 +1,2 @@
 # VisionHouse
-Everything you have seen once will be permanently captured.
+Everything you have seen once or more will be permanently captured.
